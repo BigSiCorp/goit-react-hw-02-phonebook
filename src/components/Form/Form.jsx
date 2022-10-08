@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { nanoid } from 'nanoid';
 
 export class Form extends Component {
   state = {
+    contacts: [],
     name: '',
     number: '',
   };
@@ -11,9 +13,23 @@ export class Form extends Component {
 
     this.setState({ [name]: value });
   };
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    const newContactData = {
+      name: this.state.name,
+      number: this.state.number,
+    };
+
+    this.props.addContact(newContactData);
+    this.setState(() => ({ name: '', number: '' }));
+  };
+  
+
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <input
           type="text"
           name="name"
